@@ -1,0 +1,5 @@
+# compiled output + third-party DLLs (see README: "Not in this repo")
+build/
+
+# personal build/diagnostics diary
+memory dump.md
