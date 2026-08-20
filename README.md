@@ -99,7 +99,17 @@ source so they don't cost you one:
 4. **ASUS addressable zones only commit on apply-all.** Setting a single
    addressable header's zone does nothing on this Aura controller; profile
    loads and whole-device applies (which is all Helios uses) work fine.
-5. **Config keys** live in `%APPDATA%\TempMonitor\config.txt` — thresholds
+5. **Concurrent SMBus scans wedge ENE DRAM controllers.** Two OpenRGB
+   detections running at once (in my case: two Helios instances that survived
+   across logon sessions, each spawning OpenRGB on the same band change) can
+   collide on the SMBus hard enough that a stick's RGB controller stops
+   ACKing entirely — SPD still reads, slots still show occupied, but the
+   stick vanishes from OpenRGB until it fully loses power. Recovery is a
+   shutdown with the PSU switched off for ~30 s; a warm reboot won't do it
+   (standby power keeps the controller alive). Helios now guards against the
+   root cause with a `Global\` single-instance mutex — session-local
+   (`Local\`) mutexes don't stop a stale instance from a previous logon.
+6. **Config keys** live in `%APPDATA%\TempMonitor\config.txt` — thresholds
    (`cpumax`, `gpumax`), RGB band boundaries (`rgbcpubands=50,60,72`,
    `rgbgpubands=45,55,70`), OpenRGB path (`rgbexe`), fallback profile name
    (`rgbprofile`), and the learned per-fan maxima (`fanmax.*`).

@@ -22,8 +22,12 @@ namespace TempMonitor
         [STAThread]
         private static void Main()
         {
+            // Global\ so the mutex spans logon sessions: a Local\ mutex let an
+            // instance surviving from a previous session coexist with a fresh
+            // one, and the two would spawn overlapping OpenRGB detections whose
+            // colliding SMBus traffic wedged an ENE DRAM RGB controller.
             bool createdNew;
-            Mutex mutex = new Mutex(true, "Local\\TempMonitor_SingleInstance", out createdNew);
+            Mutex mutex = new Mutex(true, "Global\\TempMonitor_SingleInstance", out createdNew);
             if (!createdNew)
                 return;
             GC.KeepAlive(mutex);
