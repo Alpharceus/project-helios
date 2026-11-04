@@ -50,6 +50,33 @@ Fan-header names are generic on Nuvoton chips; the mapping of header → label
 (e.g. "Fan #7" → "AIO Pump" on my board) is one obvious function
 (`FriendlyFanName`) at the top of the source — edit to taste.
 
+## GNOME edition (Linux)
+
+`gnome/` is a GNOME Shell 50 extension of the same idea, for a Fedora laptop (Dell G15 5515: Ryzen 7 5800H,
+RTX 3050 Ti, three 1080p panels). Wayland lets no ordinary app float over other windows, so Helios lives in the shell:
+
+```sh
+gnome/install.sh          # first install: log out and back in, then it's in the top bar
+gnome/install.sh --remove
+```
+
+- **Top bar**: CPU and GPU temperature, colored as the same four-level gauge (blue → green → yellow → red, heating
+  reacts at once, cooling waits out 3 °C of hysteresis). This laptop has no RGB Linux can drive, so the gauge *is*
+  the color; the OpenRGB hook is still there (`"rgb": true`) for machines that have devices.
+- **Dropdown**: CPU/GPU/iGPU temperature + load (GPU power too), RAM, both fans as rpm and % of the real max,
+  NVMe, SODIMM and ambient temps; toggles for the overlay and alerts.
+- **Overlay**: optional click-through panel on any monitor corner, always above windows.
+- **Lock screen**: the readout stays on the lock screen (overlay card over the Atlas maps, display-only top-bar item).
+- **Alerts**: critical GNOME notification once per over-temperature episode (re-arms 5 °C below).
+- **Config**: `~/.config/helios/config.json`, written with defaults on first run (laptop defaults: alerts at 95 °C CPU /
+  87 °C GPU, bands `60,75,88` / `55,68,80`).
+
+What Linux made simpler: every sensor is plain sysfs (`k10temp`, `amdgpu`, `alienware_wmi`/`dell_smm` fans with a real
+`fanN_max`, `nvme`), so no kernel driver, no elevation, no fan-max learning, and none of the LibreHardwareMonitor quirks
+below. Reads are async (Gio worker threads) because firmware-backed fan reads can take milliseconds. The one cost trap
+is NVIDIA: a one-shot `nvidia-smi` burns ~40 ms of CPU and an open NVML handle keeps an Optimus dGPU awake, so Helios
+streams `nvidia-smi -lms` only while the dGPU is already driving a display and shows "asleep" otherwise.
+
 ## Not in this repo (deliberately)
 
 The `build\` folder is git-ignored: it holds the compiled exe and third-party

@@ -1,0 +1,27 @@
+/* Gauge colors: GNOME palette takes on the Windows build's blue / green / yellow / red. */
+.helios-panel { font-weight: bold; font-feature-settings: "tnum"; }
+.helios-band-0 { color: #62a0ea; }
+.helios-band-1 { color: #57e389; }
+.helios-band-2 { color: #f8e45c; }
+.helios-band-3 { color: #ff7b63; }
+.helios-hot { color: #ff4848; }
+
+.helios-row-name { min-width: 9em; }
+.helios-row-value { font-feature-settings: "tnum"; }
+.helios-dim { color: #a0a5af; }
+
+.helios-overlay {
+  background-color: rgba(16, 17, 21, 0.86);
+  border-radius: 10px;
+  padding: 7px 10px;
+  border-left: 3px solid #62a0ea;
+  font-size: 10pt;
+  color: #ebebeb;
+}
+.helios-edge-1 { border-left-color: #57e389; }
+.helios-edge-2 { border-left-color: #f8e45c; }
+.helios-edge-3 { border-left-color: #ff7b63; }
+.helios-overlay-row { spacing: 14px; }
+.helios-overlay-name, .helios-overlay-value { font-feature-settings: "tnum"; }
+.helios-overlay-name.helios-dim, .helios-overlay-value.helios-dim { font-size: 8.5pt; }
+.helios-big { font-weight: bold; font-size: 10.5pt; }
