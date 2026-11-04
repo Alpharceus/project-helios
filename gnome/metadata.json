@@ -1,0 +1,14 @@
+{
+  "uuid": "helios@alpharceus.github.io",
+  "name": "Helios",
+  "description": "CPU/GPU temperature, load and fans in the top bar as a four-level heat gauge, with an optional click-through overlay and over-temperature alerts.",
+  "shell-version": [
+    "50",
+    "51"
+  ],
+  "url": "https://github.com/Alpharceus/project-helios",
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ]
+}
